@@ -1,3 +1,13 @@
+## [4.2.1](https://github.com/orkestral/venom/compare/v4.2.0...v4.2.1) (2022-07-11)
+
+
+### Bug Fixes
+
+* broken dependencies ([1972642](https://github.com/orkestral/venom/commit/19726427bc55d2cdd094505bc13a35301bf0ba76))
+* e.isLid is not a function ([7f918ed](https://github.com/orkestral/venom/commit/7f918ed3067f64ee35212b9c6a1e34092f4a8c97))
+
+
+
 # [4.2.0](https://github.com/orkestral/venom/compare/v4.1.0...v4.2.0) (2022-06-09)
 
 
