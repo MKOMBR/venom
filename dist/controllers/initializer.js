@@ -88,7 +88,7 @@ async function create(sessionOrOption, catchQR, statusFind, options, browserSess
         (0, welcome_1.welcomeScreen)();
     }
     logger.info(`${chalk.underline('https://orkestral.io - official site!')}\n`);
-    statusFind && statusFind('initBrowser', this.session);
+    statusFind && statusFind('initBrowser', session);
     // Initialize whatsapp
     if (mergedOptions.browserWS) {
         logger.info(`Waiting... checking the wss server...`, { session });
@@ -102,7 +102,7 @@ async function create(sessionOrOption, catchQR, statusFind, options, browserSess
         logger.info('Error when try to connect ' + mergedOptions.browserWS, {
             session
         });
-        statusFind && statusFind('serverWssNotConnected', this.session);
+        statusFind && statusFind('serverWssNotConnected', session);
         throw `Error when try to connect ${mergedOptions.browserWS}`;
     }
     // Erro open browser
@@ -110,17 +110,17 @@ async function create(sessionOrOption, catchQR, statusFind, options, browserSess
         logger.info('Error no open browser.... ', {
             session
         });
-        statusFind && statusFind('noOpenBrowser', this.session);
+        statusFind && statusFind('noOpenBrowser', session);
         throw `Error no open browser....`;
     }
     if (mergedOptions.browserWS) {
         logger.info('Has been properly connected to the wss server', {
             session
         });
-        statusFind && statusFind('connectBrowserWs', this.session);
+        statusFind && statusFind('connectBrowserWs', session);
     }
     else {
-        statusFind && statusFind('openBrowser', this.session);
+        statusFind && statusFind('openBrowser', session);
         logger.info('Browser successfully opened', {
             session
         });
@@ -157,7 +157,7 @@ async function create(sessionOrOption, catchQR, statusFind, options, browserSess
         logger.info('Checking page...', {
             session
         });
-        statusFind && statusFind('initWhatsapp', this.session);
+        statusFind && statusFind('initWhatsapp', session);
         const newPage = await (0, browser_1.getWhatsappPage)(browser);
         const client = new whatsapp_1.Whatsapp(newPage, session, mergedOptions);
         const page = await (0, browser_1.initWhatsapp)(session, mergedOptions, browser, browserToken);
@@ -168,10 +168,10 @@ async function create(sessionOrOption, catchQR, statusFind, options, browserSess
             logger.info('Error accessing the page: "https://web.whatsapp.com"', {
                 session
             });
-            statusFind && statusFind('erroPageWhatsapp', this.session);
+            statusFind && statusFind('erroPageWhatsapp', session);
             throw 'Error when trying to access the page: "https://web.whatsapp.com"';
         }
-        statusFind && statusFind('successPageWhatsapp', this.session);
+        statusFind && statusFind('successPageWhatsapp', session);
         logger.info(`${chalk.green('Page successfully accessed')}`, {
             session
         });
@@ -241,7 +241,7 @@ async function create(sessionOrOption, catchQR, statusFind, options, browserSess
             if (mergedOptions.debug) {
                 console.log(`\nDebug: Option waitForLogin it's true. waiting...`);
             }
-            statusFind && statusFind('waitForLogin', this.session);
+            statusFind && statusFind('waitForLogin', session);
             const isLogged = await client.waitForLogin(catchQR, statusFind);
             if (!isLogged) {
                 throw 'Not Logged';
@@ -269,7 +269,7 @@ async function create(sessionOrOption, catchQR, statusFind, options, browserSess
         if (mergedOptions.debug) {
             console.log(`\nDebug: Init WP app... waitForFunction "Store" ... this might take a while`);
         }
-        statusFind && statusFind('waitChat', this.session);
+        statusFind && statusFind('waitChat', session);
         await page.waitForSelector('#app .two', { visible: true }).catch(() => { });
         if (mergedOptions.debug) {
             console.log(`\nDebug: Loading wp app... waitForFunction "Store" ... this might take a while also`);
@@ -298,7 +298,7 @@ async function create(sessionOrOption, catchQR, statusFind, options, browserSess
         if (mergedOptions.debug) {
             console.log(`\nDebug: injecting Api done...`);
         }
-        statusFind && statusFind('successChat', this.session);
+        statusFind && statusFind('successChat', session);
         return client;
     }
 }

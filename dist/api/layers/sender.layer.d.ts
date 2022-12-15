@@ -15,7 +15,7 @@ export declare class SenderLayer extends ListenerLayer {
      * @param buttonText the name button
      * @param menu List menu
      */
-    sendListMenu(to: string, title: string, subTitle: string, description: string, buttonText: string, menu: Array<any>): Promise<Object>;
+    sendListMenu(to: string, title: string, description: string, buttonText: string, menu: Array<any>): Promise<Object>;
     /**
      * Sends a text message to given chat
      * @param to chat id: xxxxx@us.c
@@ -80,7 +80,7 @@ export declare class SenderLayer extends ListenerLayer {
      * @param content Message body
      * @param quotedMsg Message id to reply to.
      */
-    reply(to: string, content: string, quotedMsg: string): Promise<Message | object>;
+    reply(to: string, content: string, quotedMsg: string): Promise<Message>;
     /**
      * Send audio base64
      * @param to Chat id

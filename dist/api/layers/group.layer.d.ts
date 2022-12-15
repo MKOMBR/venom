@@ -11,7 +11,13 @@ export declare class GroupLayer extends RetrieverLayer {
      * @param {string} groupId group number
      * @param {string} path of image
      */
-    setGroupImage(groupId: string, path: string): Promise<boolean>;
+    setGroupImage(groupId: string, path: string): Promise<false | {
+        eurl: string;
+        status: number;
+        tag: string;
+        token: string;
+        _duplicate: boolean;
+    }>;
     /**
      * Parameters to change group title
      * @param {string} groupId group number
@@ -56,7 +62,7 @@ export declare class GroupLayer extends RetrieverLayer {
      * Returns group members [Contact] objects
      * @param groupId
      */
-    getGroupMembers(groupId: string): Promise<import("../model").Contact[]>;
+    getGroupMembers(groupId: string): Promise<Id[]>;
     /**
      * Reset group invitation link
      * @param chatId

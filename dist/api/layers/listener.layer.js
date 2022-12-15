@@ -108,7 +108,9 @@ class ListenerLayer extends profile_layer_1.ProfileLayer {
                 window['onStateChange'].exposed = true;
             }
             if (!window['onStreamChange'].exposed) {
-                window.WAPI.onStreamChange(window['onStreamChange']);
+                WPP.on('conn.logout', (state) => {
+                    window['onStreamChange']('LOGOUT');
+                });
                 window['onStreamChange'].exposed = true;
             }
             if (!window['onAddedToGroup'].exposed) {
@@ -124,10 +126,15 @@ class ListenerLayer extends profile_layer_1.ProfileLayer {
                 window['onInterfaceChange'].exposed = true;
             }
             if (!window['onMessage'].exposed) {
-                window.WAPI.waitNewMessages(false, (data) => {
-                    data.forEach((message) => {
-                        window['onMessage'](message);
-                    });
+                WPP.on('chat.new_message', (msg) => {
+                    if (msg.isSentByMe || msg.isStatusV3) {
+                        return;
+                    }
+                    if (msg.quotedMsg) {
+                        msg.subtype = msg.type;
+                        msg.type = 'reply';
+                        window['onMessage'](msg);
+                    }
                 });
                 window['onMessage'].exposed = true;
             }

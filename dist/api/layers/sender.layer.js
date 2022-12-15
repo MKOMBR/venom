@@ -75,11 +75,11 @@ class SenderLayer extends listener_layer_1.ListenerLayer {
      * @param buttonText the name button
      * @param menu List menu
      */
-    async sendListMenu(to, title, subTitle, description, buttonText, menu) {
+    async sendListMenu(to, title, description, buttonText, menu) {
         return new Promise(async (resolve, reject) => {
-            const result = await this.page.evaluate(({ to, title, subTitle, description, buttonText, menu }) => {
-                return WAPI.sendListMenu(to, title, subTitle, description, buttonText, menu);
-            }, { to, title, subTitle, description, buttonText, menu });
+            const result = await this.page.evaluate(({ to, title, description, buttonText, menu }) => {
+                return WAPI.sendListMenu(to, title, description, buttonText, menu);
+            }, { to, title, description, buttonText, menu });
             if (result['erro'] == true) {
                 return reject(result);
             }
@@ -120,12 +120,11 @@ class SenderLayer extends listener_layer_1.ListenerLayer {
             const result = await this.page.evaluate(({ to, content }) => {
                 return WAPI.sendMessage(to, content);
             }, { to, content });
-            if (result['erro'] == true) {
-                return reject(result);
-            }
-            else {
-                return resolve(result);
-            }
+            // if (result['erro'] == true) {
+            //   return reject(result);
+            // } else {
+            return resolve(result);
+            // }
         });
     }
     /**
@@ -270,6 +269,72 @@ class SenderLayer extends listener_layer_1.ListenerLayer {
      * @param {string} subtitle the subtitle
      * @param {array} buttons arrays
      */
+    // public async sendButtons(
+    //   to: string,
+    //   title: string,
+    //   buttons: { buttonText: { displayText: string } }[],
+    //   subtitle: string
+    // ): Promise<object> {
+    //   return new Promise(async (resolve, reject) => {
+    //     const typeFunction = 'sendButtons';
+    //     const type = 'string';
+    //     const obj = 'object';
+    //     const check = [
+    //       {
+    //         param: 'to',
+    //         type: type,
+    //         value: to,
+    //         function: typeFunction,
+    //         isUser: true
+    //       },
+    //       {
+    //         param: 'title',
+    //         type: type,
+    //         value: title,
+    //         function: typeFunction,
+    //         isUser: true
+    //       },
+    //       {
+    //         param: 'buttons',
+    //         type: obj,
+    //         value: buttons,
+    //         function: typeFunction,
+    //         isUser: true
+    //       },
+    //       {
+    //         param: 'subtitle',
+    //         type: type,
+    //         value: subtitle,
+    //         function: typeFunction,
+    //         isUser: true
+    //       }
+    //     ];
+    //     const validating = checkValuesSender(check);
+    //     if (typeof validating === 'object') {
+    //       return reject(validating);
+    //     }
+    //     const result = await this.page.evaluate(
+    //       ({ to, title, buttons, subtitle }) => {
+    //         let options = {
+    //           useTemplateButtons: false,
+    //           createChat: true,
+    //           buttons: buttons,
+    //           title: title
+    //         };
+    //         return WPP.chat.sendTextMessage(to, subtitle, {
+    //           ...options,
+    //           waitForAck: true
+    //         });
+    //       },
+    //       { to, title, buttons, subtitle }
+    //     );
+    //     if (result['erro'] == true) {
+    //       return reject(result);
+    //     } else {
+    //       return resolve(result);
+    //     }
+    //   });
+    // }
     async sendButtons(to, title, buttons, subtitle) {
         return new Promise(async (resolve, reject) => {
             const typeFunction = 'sendButtons';
@@ -383,46 +448,14 @@ class SenderLayer extends listener_layer_1.ListenerLayer {
      * @param quotedMsg Message id to reply to.
      */
     async reply(to, content, quotedMsg) {
-        return new Promise(async (resolve, reject) => {
-            const typeFunction = 'reply';
-            const type = 'string';
-            const check = [
-                {
-                    param: 'to',
-                    type: type,
-                    value: to,
-                    function: typeFunction,
-                    isUser: true
-                },
-                {
-                    param: 'content',
-                    type: type,
-                    value: content,
-                    function: typeFunction,
-                    isUser: true
-                },
-                {
-                    param: 'quotedMsg',
-                    type: type,
-                    value: quotedMsg,
-                    function: typeFunction,
-                    isUser: false
-                }
-            ];
-            const validating = (0, layers_interface_1.checkValuesSender)(check);
-            if (typeof validating === 'object') {
-                return reject(validating);
-            }
-            const result = await this.page.evaluate(({ to, content, quotedMsg }) => {
-                return WAPI.reply(to, content, quotedMsg);
-            }, { to, content, quotedMsg });
-            if (result['erro'] == true) {
-                reject(result);
-            }
-            else {
-                resolve(result);
-            }
-        });
+        const result = await this.page.evaluate(({ to, content, quotedMsg }) => {
+            return WPP.chat.sendTextMessage(to, content, { quotedMsg });
+        }, { to, content, quotedMsg });
+        const message = (await this.page.evaluate((messageId) => WAPI.getMessageById(messageId), result.id));
+        if (message['erro'] == true) {
+            throw message;
+        }
+        return message;
     }
     /**
      * Send audio base64
@@ -755,6 +788,7 @@ class SenderLayer extends listener_layer_1.ListenerLayer {
                 return WAPI.sendLocation(to, latitude, longitude, title);
             }, { to, latitude, longitude, title });
             if (result['erro'] == true) {
+                console.log(result);
                 reject(result);
             }
             else {

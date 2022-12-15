@@ -25,7 +25,13 @@ export declare class ProfileLayer extends HostLayer {
      * Sets the user's current profile photo
      * @param name
      */
-    setProfilePic(path: string, to?: string): Promise<boolean>;
+    setProfilePic(path: string): Promise<false | {
+        eurl: string;
+        status: number;
+        tag: string;
+        token: string;
+        _duplicate: boolean;
+    }>;
     /**
      * Sets current user profile name
      * @param name

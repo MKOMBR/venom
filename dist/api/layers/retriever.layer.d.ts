@@ -1,7 +1,7 @@
 import { Page } from 'puppeteer';
 import { CreateConfig } from '../../config/create-config';
 import { tokenSession } from '../../config/tokenSession.config';
-import { WhatsappProfile } from '../model';
+import { Chat, WhatsappProfile } from '../model';
 import { SenderLayer } from './sender.layer';
 export declare class RetrieverLayer extends SenderLayer {
     page: Page;
@@ -31,17 +31,17 @@ export declare class RetrieverLayer extends SenderLayer {
      * Retrieves all chats
      * @returns array of [Chat]
      */
-    getAllChats(): Promise<import("../model").Chat[]>;
+    getAllChats(): Promise<Chat[]>;
     /**
      * Retrieves all chats new messages
      * @returns array of [Chat]
      */
-    getAllChatsNewMsg(): Promise<import("../model").Chat[]>;
+    getAllChatsNewMsg(): Promise<Chat[]>;
     /**
      * Retrieves all chats Contacts
      * @returns array of [Chat]
      */
-    getAllChatsContacts(): Promise<import("../model").Chat[]>;
+    getAllChatsContacts(): Promise<Chat[]>;
     /**
      * Checks if a number is a valid WA number
      * @param contactId, you need to include the @c.us at the end.
@@ -52,12 +52,12 @@ export declare class RetrieverLayer extends SenderLayer {
      * Retrieves all chats with messages
      * @returns array of [Chat]
      */
-    getAllChatsWithMessages(withNewMessageOnly?: boolean): Promise<import("../model").Chat[]>;
+    getAllChatsWithMessages(withNewMessageOnly?: boolean): Promise<Chat[]>;
     /**
      * Retrieve all contact new messages
      * @returns array of groups
      */
-    getChatContactNewMsg(): Promise<import("../model").Chat[]>;
+    getChatContactNewMsg(): Promise<Chat[]>;
     /**
      * Retrieves contact detail object of given contact id
      * @param contactId
@@ -70,23 +70,29 @@ export declare class RetrieverLayer extends SenderLayer {
      */
     getAllContacts(): Promise<import("../model").Contact[]>;
     /**
+     * Retrieve all groups
+     * @category Group
+     * @returns array of groups
+     */
+    getAllGroups(withNewMessagesOnly?: boolean): Promise<Chat[]>;
+    /**
      * Retrieves all chats Transmission list
      * @returns array of [Chat]
      */
-    getAllChatsTransmission(): Promise<import("../model").Chat[]>;
+    getAllChatsTransmission(): Promise<Chat[]>;
     /**
      * Retrieves chat object of given contact id
      * @param contactId
      * @returns contact detial as promise
      */
-    getChatById(contactId: string): Promise<import("../model").Chat>;
+    getChatById(contactId: string): Promise<Chat>;
     /**
      * Retrieves chat object of given contact id
      * @param contactId
      * @returns contact detial as promise
      * @deprecated
      */
-    getChat(contactId: string): Promise<import("../model").Chat>;
+    getChat(contactId: string): Promise<Chat>;
     /**
      * Retrieves chat picture
      * @param chatId Chat id

@@ -1,7 +1,7 @@
 import { Page } from 'puppeteer';
 import { CreateConfig } from '../../config/create-config';
 import { Ack, Chat, LiveLocation, Message, ParticipantEvent } from '../model';
-import { SocketState, SocketStream } from '../model/enum';
+import { SocketState } from '../model/enum';
 import { InterfaceMode } from '../model/enum/interface-mode';
 import { InterfaceState } from '../model/enum/interface-state';
 import { ProfileLayer } from './profile.layer';
@@ -23,14 +23,14 @@ export declare class ListenerLayer extends ProfileLayer {
     /**
      * @returns Returns the current state of the connection
      */
-    onStreamChange(fn: (state: SocketStream) => void): Promise<{
+    onStreamChange(fn: (state: any) => void): Promise<{
         dispose: () => void;
     }>;
     /**
      * @event Listens to messages received
      * @returns Observable stream of messages
      */
-    onMessage(fn: (message: Message) => void): Promise<{
+    onMessage(fn: (message: any) => void): Promise<{
         dispose: () => void;
     }>;
     /**

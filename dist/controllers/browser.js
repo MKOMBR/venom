@@ -214,20 +214,18 @@ async function initBrowser(session, options, logger, extras = {}) {
             extras = {};
         }
     }
-    if (options.multidevice) {
-        const folderSession = path.join(path.resolve(process.cwd(), options.mkdirFolderToken, options.folderNameToken, session));
-        const folderMulidevice = path.join(path.resolve(process.cwd(), options.mkdirFolderToken, options.folderNameToken));
-        if (!fs.existsSync(folderMulidevice)) {
-            fs.mkdirSync(folderMulidevice, {
-                recursive: true
-            });
-        }
-        fs.chmodSync(folderMulidevice, '777');
-        options.puppeteerOptions = {
-            userDataDir: folderSession
-        };
-        puppeteer_config_1.puppeteerConfig.chromiumArgs.push(`--user-data-dir=${folderSession}`);
+    const folderSession = path.join(path.resolve(process.cwd(), options.mkdirFolderToken, options.folderNameToken, session));
+    const folderMulidevice = path.join(path.resolve(process.cwd(), options.mkdirFolderToken, options.folderNameToken));
+    if (!fs.existsSync(folderMulidevice)) {
+        fs.mkdirSync(folderMulidevice, {
+            recursive: true
+        });
     }
+    fs.chmodSync(folderMulidevice, '777');
+    options.puppeteerOptions = {
+        userDataDir: folderSession
+    };
+    puppeteer_config_1.puppeteerConfig.chromiumArgs.push(`--user-data-dir=${folderSession}`);
     // Use stealth plugin to avoid being detected as a bot
     puppeteer_extra_1.default.use(StealthPlugin());
     if (Array.isArray(options.addProxy) && options.addProxy.length) {
